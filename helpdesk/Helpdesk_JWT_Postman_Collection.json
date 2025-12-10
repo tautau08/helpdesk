@@ -1,0 +1,269 @@
+{
+  "info": {
+    "name": "Helpdesk API - JWT Authentication",
+    "description": "Complete test collection for JWT authentication and role-based access",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Login - SYSTEM Role",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"system\",\n  \"password\": \"system123\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/auth/login",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "auth", "login"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login - ADMIN Role",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"admin\",\n  \"password\": \"admin123\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/auth/login",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "auth", "login"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login - USER Role",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"user\",\n  \"password\": \"user123\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/auth/login",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "auth", "login"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login - Invalid Credentials",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"admin\",\n  \"password\": \"wrongpassword\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/auth/login",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "auth", "login"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Protected Endpoints - ADMIN Access",
+      "item": [
+        {
+          "name": "Get All Companies (Authorized)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}",
+                "description": "Replace {{admin_token}} with actual token from login"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/api/companies",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "companies"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Company (Authorized)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Test Company\",\n  \"sortOrder\": 10,\n  \"isActive\": true\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/companies",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "companies"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Protected Endpoints - Unauthorized",
+      "item": [
+        {
+          "name": "Get Companies (No Token)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/companies",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "companies"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Companies (USER Role - Forbidden)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{user_token}}",
+                "description": "USER role should NOT have access to companies"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/api/companies",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "companies"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Tickets - USER Access",
+      "item": [
+        {
+          "name": "Get All Tickets (USER Role)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{user_token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/api/tickets",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "tickets"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Ticket (USER Role)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{user_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"companyId\": 1,\n  \"categoryId\": 1,\n  \"subcategoryId\": 1,\n  \"statusId\": 1,\n  \"priorityListId\": 1,\n  \"serviceTypeId\": 1,\n  \"description\": \"Test ticket from USER\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/tickets",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "tickets"]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "admin_token",
+      "value": "YOUR_ADMIN_TOKEN_HERE"
+    },
+    {
+      "key": "user_token",
+      "value": "YOUR_USER_TOKEN_HERE"
+    }
+  ]
+}
+
