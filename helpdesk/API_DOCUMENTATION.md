@@ -2060,4 +2060,3 @@ For API issues or questions:
 
 **Last Updated:** November 19, 2025  
 **Document Version:** 1.0
-
